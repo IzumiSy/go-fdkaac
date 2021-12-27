@@ -5,7 +5,7 @@ LDFLAGS := $(OBJS)/lib/libfdk-aac.a -lm
 
 .PHONY: build
 build:
-	docker build --output type=local,dest=. .
+	docker build --target artifact --output type=local,dest=. .
 	cd fdkaac-lib \
 		&& ./configure --prefix="$(OBJS)" \
 		&& make \
