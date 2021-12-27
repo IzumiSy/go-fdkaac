@@ -5,8 +5,7 @@ LDFLAGS := $(OBJS)/lib/libfdk-aac.a -lm
 
 .PHONY: build
 build:
-	docker build -t autogen-runner .
-	docker run --rm -v $(PWD)/fdkaac-lib:/src autogen-runner
+	docker build --output type=local,dest=. .
 	cd fdkaac-lib \
 		&& ./configure --prefix="$(OBJS)" \
 		&& make \

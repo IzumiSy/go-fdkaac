@@ -1,9 +1,13 @@
 # Environment free runner for autoreconf
 
-FROM alpine:3.15
+FROM alpine:3.15 as build
 
-RUN apk add --no-cache alpine-sdk autoconf libtool automake
+RUN apk add --no-cache autoconf libtool automake
 
-WORKDIR /src
+WORKDIR /fdkaac-lib
+COPY /fdkaac-lib /fdkaac-lib
 
-CMD ./autogen.sh
+RUN ./autogen.sh
+
+FROM scratch as artifact
+COPY --from=build /fdkaac-lib /fdkaac-lib
