@@ -1,15 +1,17 @@
-OBJS_PATH := $(shell pwd)/fdkaac-objs
-CFLAGS := -I$(OBJS_PATH)/include/fdk-aac
-LDFLAGS := $(OBJS_PATH)/lib/libfdk-aac.a -lm
+PWD := $(shell pwd)
+OBJS := $(PWD)/fdkaac-objs
+CFLAGS := -I$(OBJS)/include/fdk-aac
+LDFLAGS := $(OBJS)/lib/libfdk-aac.a -lm
 
 .PHONY: build
 build:
-	docker build -t fdkaac .
-
-.PHONY: test/setup
-test/setup: $(OBJS_PATH)/lib/libfdk-aac.a
-	docker run -v $(OBJS_PATH):/fdkaac/fdkaac-objs fdkaac
+	docker build -t autogen-runner .
+	docker run --rm -v $(PWD)/fdkaac-lib:/src autogen-runner
+	cd fdkaac-lib \
+		&& ./configure --prefix="$(OBJS)" \
+		&& make \
+		&& make install
 
 .PHONY: test
-test:
+test: build
 	GO111MODULE=on CGO_CFLAGS="$(CFLAGS)" CGO_LDFLAGS="$(LDFLAGS)" go test -count=1 ./...
