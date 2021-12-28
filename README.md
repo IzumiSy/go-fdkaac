@@ -8,6 +8,8 @@ Only decoders available.
 ```
 $ git submodule add https://github.com/IzumiSy/go-fdkaac.git lib/go-fdkaac
 $ git submodule update --init --recursive
+$ cd lib/go-fdkaac
+$ ./build.sh
 ```
 
 ## Tests
