@@ -20,11 +20,8 @@ jobs:
           /tmp/earthly --version
 
       - name: Login to GHCR
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          docker login ghcr.io --username izumisy --password ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
         run: /tmp/earthly --push +image
