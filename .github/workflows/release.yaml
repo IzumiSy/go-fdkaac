@@ -27,4 +27,4 @@ jobs:
           /tmp/earthly --version
 
       - name: Build and push
-        run: /tmp/earthly --push +image
+        run: /tmp/earthly --push --ci +image
